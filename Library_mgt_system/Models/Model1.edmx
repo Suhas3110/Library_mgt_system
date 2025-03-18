@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Library_mgt_systemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_login">
+          <Key>
+            <PropertyRef Name="login_id" />
+          </Key>
+          <Property Name="login_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isApproved" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_user_details">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="loginID" Type="int" />
+          <Property Name="userTypeID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Contact" Type="bigint" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_userType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userType" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_user_details_tbl_login">
+          <End Role="tbl_login" Type="Self.tbl_login" Multiplicity="0..1" />
+          <End Role="tbl_user_details" Type="Self.tbl_user_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_login">
+              <PropertyRef Name="login_id" />
+            </Principal>
+            <Dependent Role="tbl_user_details">
+              <PropertyRef Name="loginID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_user_details_tbl_userType">
+          <End Role="tbl_userType" Type="Self.tbl_userType" Multiplicity="0..1" />
+          <End Role="tbl_user_details" Type="Self.tbl_user_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_userType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="tbl_user_details">
+              <PropertyRef Name="userTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Library_mgt_systemModelStoreContainer">
+          <EntitySet Name="tbl_login" EntityType="Self.tbl_login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_user_details" EntityType="Self.tbl_user_details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_userType" EntityType="Self.tbl_userType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_user_details_tbl_login" Association="Self.FK_tbl_user_details_tbl_login">
+            <End Role="tbl_login" EntitySet="tbl_login" />
+            <End Role="tbl_user_details" EntitySet="tbl_user_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_user_details_tbl_userType" Association="Self.FK_tbl_user_details_tbl_userType">
+            <End Role="tbl_userType" EntitySet="tbl_userType" />
+            <End Role="tbl_user_details" EntitySet="tbl_user_details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Library_mgt_systemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_login">
+          <Key>
+            <PropertyRef Name="login_id" />
+          </Key>
+          <Property Name="login_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isApproved" Type="Boolean" />
+          <NavigationProperty Name="tbl_user_details" Relationship="Self.FK_tbl_user_details_tbl_login" FromRole="tbl_login" ToRole="tbl_user_details" />
+        </EntityType>
+        <EntityType Name="tbl_user_details">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="loginID" Type="Int32" />
+          <Property Name="userTypeID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="Int64" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_login" Relationship="Self.FK_tbl_user_details_tbl_login" FromRole="tbl_user_details" ToRole="tbl_login" />
+          <NavigationProperty Name="tbl_userType" Relationship="Self.FK_tbl_user_details_tbl_userType" FromRole="tbl_user_details" ToRole="tbl_userType" />
+        </EntityType>
+        <EntityType Name="tbl_userType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_user_details" Relationship="Self.FK_tbl_user_details_tbl_userType" FromRole="tbl_userType" ToRole="tbl_user_details" />
+        </EntityType>
+        <Association Name="FK_tbl_user_details_tbl_login">
+          <End Role="tbl_login" Type="Self.tbl_login" Multiplicity="0..1" />
+          <End Role="tbl_user_details" Type="Self.tbl_user_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_login">
+              <PropertyRef Name="login_id" />
+            </Principal>
+            <Dependent Role="tbl_user_details">
+              <PropertyRef Name="loginID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_user_details_tbl_userType">
+          <End Role="tbl_userType" Type="Self.tbl_userType" Multiplicity="0..1" />
+          <End Role="tbl_user_details" Type="Self.tbl_user_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_userType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="tbl_user_details">
+              <PropertyRef Name="userTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Library_mgt_systemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_login" EntityType="Self.tbl_login" />
+          <EntitySet Name="tbl_user_details" EntityType="Self.tbl_user_details" />
+          <EntitySet Name="tbl_userType" EntityType="Self.tbl_userType" />
+          <AssociationSet Name="FK_tbl_user_details_tbl_login" Association="Self.FK_tbl_user_details_tbl_login">
+            <End Role="tbl_login" EntitySet="tbl_login" />
+            <End Role="tbl_user_details" EntitySet="tbl_user_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_user_details_tbl_userType" Association="Self.FK_tbl_user_details_tbl_userType">
+            <End Role="tbl_userType" EntitySet="tbl_userType" />
+            <End Role="tbl_user_details" EntitySet="tbl_user_details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Library_mgt_systemModelStoreContainer" CdmEntityContainer="Library_mgt_systemEntities">
+          <EntitySetMapping Name="tbl_login">
+            <EntityTypeMapping TypeName="Library_mgt_systemModel.tbl_login">
+              <MappingFragment StoreEntitySet="tbl_login">
+                <ScalarProperty Name="login_id" ColumnName="login_id" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_user_details">
+            <EntityTypeMapping TypeName="Library_mgt_systemModel.tbl_user_details">
+              <MappingFragment StoreEntitySet="tbl_user_details">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="loginID" ColumnName="loginID" />
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_userType">
+            <EntityTypeMapping TypeName="Library_mgt_systemModel.tbl_userType">
+              <MappingFragment StoreEntitySet="tbl_userType">
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

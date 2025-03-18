@@ -1,0 +1,27 @@
+﻿@model Library_mgt_system.Models.validation_classes.tblloginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>Login</h1>
+    <h4>@ViewBag.msg</h4>
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.LabelFor(x => x.userName) @Html.TextBoxFor(x => x.userName)@Html.ValidationMessageFor(x => x.userName)<br />
+            @Html.LabelFor(x => x.password) @Html.TextBoxFor(x => x.password)@Html.ValidationMessageFor(x => x.password)<br />
+            <input type="submit" value="Login" />
+        }
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>
